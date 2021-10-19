@@ -18,7 +18,7 @@ class Countdown_Module extends Module {
 
 		$name = 'Countdown';
 		$author = '<a href="https://samerton.me" target="_blank">Samerton</a>';
-		$module_version = '1.0.0';
+		$module_version = '1.0.2';
 		$nameless_version = '2.0.0-pr12';
 
 		parent::__construct($this, $name, $author, $module_version, $nameless_version);

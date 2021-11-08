@@ -18,7 +18,7 @@ class Countdown_Module extends Module {
 
 		$name = 'Countdown';
 		$author = '<a href="https://samerton.me" target="_blank">Samerton</a>';
-		$module_version = '1.0.0';
+		$module_version = '1.0.3';
 		$nameless_version = '2.0.0-pr12';
 
 		parent::__construct($this, $name, $author, $module_version, $nameless_version);
@@ -69,8 +69,8 @@ class Countdown_Module extends Module {
 		$countdown_pages = $widgets->getPages('Countdown');
 		$widgets->add(new CountdownWidget($countdown_pages, $user, $this->_language, $this->_countdown_language, $smarty, $cache));
 
-		if (defined('FRONT_END')) {
-            $template->addJSScript('
+		if (defined('FRONT_END') && $template) {
+		$template->addJSScript('
                 let countdownInterval;
 
                 function getCountdownTime() {
@@ -128,8 +128,8 @@ class Countdown_Module extends Module {
                 countdownInterval = setInterval(function() {
                     getCountdownTime();
                 }, 1000);
-            ');
-        }
+		');
+		}
 
 		if (defined('BACK_END')) {
 			if($user->getMainGroup()->id == 2 || $user->hasPermission('admincp.countdown')){

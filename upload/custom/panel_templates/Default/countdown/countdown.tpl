@@ -55,6 +55,9 @@
                                 <input type="hidden" name="token" value="{$TOKEN}">
                                 <input type="submit" class="btn btn-primary" value="{$SUBMIT}" />
                             </div>
+                            <div class="form-group">
+                                <button type="button" onclick="toggleRemoveModal()" class="btn btn-danger">{$REMOVE_COUNTDOWN}</button>
+                            </div>
                         </form>
 
                     </div>
@@ -74,10 +77,39 @@
         <!-- End Content Wrapper -->
     </div>
 
+    <!-- Remove countdown modal -->
+    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{$REMOVE_COUNTDOWN_CONFIRM}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{$REMOVE_COUNTDOWN_CONFIRM_NO}</button>
+                    <button type="button" onclick="removeCountdown()" class="btn btn-primary">{$REMOVE_COUNTDOWN_CONFIRM_YES}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- End Wrapper -->
 </div>
 
 {include file='scripts.tpl'}
+
+<script type="text/javascript">
+    function toggleRemoveModal() {
+      $('#removeModal').modal().show();
+    }
+
+    function removeCountdown() {
+      const remove = $.post("{$REMOVE_COUNTDOWN_ACTION}", { token: "{$TOKEN}" });
+      remove.done(function () { window.location.reload(); })
+    }
+</script>
 
 </body>
 

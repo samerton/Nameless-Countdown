@@ -10,6 +10,7 @@
     "countdown\/name_minimum": "Please ensure the name is at least {{count}} characters",
     "countdown\/name_required": "Please enter a name",
     "countdown\/no_countdown": "No countdown has been set up yet",
+    "countdown\/remove_countdown": "Remove countdown",
     "countdown\/updated_successfully": "Updated successfully",
     "countdown\/x_days": "{{days}}d",
     "countdown\/x_hours": "{{hours}}h",

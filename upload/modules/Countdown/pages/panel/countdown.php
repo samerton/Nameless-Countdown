@@ -23,6 +23,11 @@ require_once ROOT_PATH . '/core/templates/backend_init.php';
 
 if (Input::exists()) {
     if (Token::check()) {
+        if (isset($_GET['action']) && $_GET['action'] == 'remove') {
+            DB::getInstance()->delete('countdown', ['id', '=', 1]);
+            die('Complete');
+        }
+
         $validation = Validate::check($_POST, [
             'name' => [
                 Validate::REQUIRED => true,
@@ -114,6 +119,11 @@ $smarty->assign([
     'COUNTDOWN_EXPIRES' => $countdown_language->get('countdown', 'countdown_expires'),
     'COUNTDOWN_EXPIRES_MIN' => date('Y-m-d\TH:i'),
     'PAGE' => PANEL_PAGE,
+    'REMOVE_COUNTDOWN' => $countdown_language->get('countdown', 'remove_countdown'),
+    'REMOVE_COUNTDOWN_ACTION' => URL::build('/panel/countdown', 'action=remove'),
+    'REMOVE_COUNTDOWN_CONFIRM' => $language->get('general', 'are_you_sure'),
+    'REMOVE_COUNTDOWN_CONFIRM_YES' => $language->get('general', 'yes'),
+    'REMOVE_COUNTDOWN_CONFIRM_NO' => $language->get('general', 'no'),
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit')
 ]);

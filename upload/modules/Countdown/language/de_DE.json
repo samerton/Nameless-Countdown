@@ -1,0 +1,18 @@
+{
+    "countdown\/configure_widget_info": "Du kannst den Standort des Widgets in der Registerkarte StaffCP -> Layout -> Widgets konfigurieren",
+    "countdown\/countdown": "Countdown",
+    "countdown\/countdown_description": "Beschreibung",
+    "countdown\/countdown_expires": "Läuft ab",
+    "countdown\/countdown_format": "{{days}}:{{hours}}:{{minutes}}:{{seconds}}",
+    "countdown\/countdown_name": "Name",
+    "countdown\/expires_required": "Bitte gebe ein Ablaufdatum ein",
+    "countdown\/name_maximum": "Bitte stelle sicher, dass der Name maximal {{count}} Zeichen lang ist",
+    "countdown\/name_minimum": "Bitte stelle sicher, dass der Name mindestens {{count}} Zeichen lang ist",
+    "countdown\/name_required": "Bitte gebe einen Namen ein",
+    "countdown\/no_countdown": "Es wurde noch kein Countdown eingerichtet",
+    "countdown\/updated_successfully": "Update Erfolgreich",
+    "countdown\/x_days": "{{days}}d",
+    "countdown\/x_hours": "{{hours}}h",
+    "countdown\/x_minutes": "{{minutes}}m",
+    "countdown\/x_seconds": "{{seconds}}s"
+}

@@ -1,0 +1,18 @@
+{
+    "countdown\/configure_widget_info": "Puteți configura locația widget-ului în fila StaffCP -> Layout -> Widgets",
+    "countdown\/countdown": "Numărătoare inversă",
+    "countdown\/countdown_description": "Descriere",
+    "countdown\/countdown_expires": "Expiră",
+    "countdown\/countdown_format": "{{days}}:{{hours}}:{{minutes}}:{{seconds}}",
+    "countdown\/countdown_name": "Nume",
+    "countdown\/expires_required": "Vă rugăm să introduceți o dată de expirare",
+    "countdown\/name_maximum": "Asigurați-vă că numele are cel mult {{count}} de caractere",
+    "countdown\/name_minimum": "Asigurați-vă că numele are cel puțin {{count}} caractere",
+    "countdown\/name_required": "Vă rugăm să introduceți un nume",
+    "countdown\/no_countdown": "Nu a fost configurată încă o numărătoare inversă",
+    "countdown\/updated_successfully": "Actualizat cu succes",
+    "countdown\/x_days": "{{days}}z",
+    "countdown\/x_hours": "{{hours}}o",
+    "countdown\/x_minutes": "{{minutes}}m",
+    "countdown\/x_seconds": "{{seconds}}s"
+}

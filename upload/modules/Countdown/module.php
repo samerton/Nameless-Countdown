@@ -2,7 +2,7 @@
 /*
  *	Made by Samerton
  *  https://github.com/NamelessMC/Nameless/
- *  NamelessMC version 2.0.0-pr12
+ *  NamelessMC version 2.0.0-pr13
  *
  *  License: MIT
  *
@@ -10,67 +10,53 @@
  */
 
 class Countdown_Module extends Module {
-	private $_countdown_language, $_language;
+    private $_countdown_language, $_language;
 
-	public function __construct($pages, $language, $countdown_language){
-		$this->_countdown_language = $countdown_language;
-		$this->_language = $language;
+     public function __construct($pages, $language, $countdown_language){
+        $this->_countdown_language = $countdown_language;
+        $this->_language = $language;
 
-		$name = 'Countdown';
-		$author = '<a href="https://samerton.me" target="_blank">Samerton</a>';
-		$module_version = '1.0.3';
-		$nameless_version = '2.0.0-pr12';
+        $name = 'Countdown';
+        $author = '<a href="https://samerton.me" target="_blank">Samerton</a>';
+        $module_version = '1.1.0';
+        $nameless_version = '2.0.0-pr13';
 
-		parent::__construct($this, $name, $author, $module_version, $nameless_version);
+        parent::__construct($this, $name, $author, $module_version, $nameless_version);
 
-		// Define URLs which belong to this module
-		$pages->add('Countdown', '/panel/countdown', 'pages/panel/countdown.php');
+        // Define URLs which belong to this module
+        $pages->add('Countdown', '/panel/countdown', 'pages/panel/countdown.php');
 
-	}
+    }
 
-	public function onInstall(){
-		try {
-			$engine = Config::get('mysql/engine');
-			$charset = Config::get('mysql/charset');
-		} catch(Exception $e){
-			$engine = 'InnoDB';
-			$charset = 'utf8mb4';
-		}
+    public function onInstall(){
+        try {
+            DB::getInstance()->createTable("countdown", " `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(256) NOT NULL, `description` text, `expires` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`id`)");
+        } catch(Exception $e){
+            // Error
+        }
+    }
 
-		if(!$engine || is_array($engine))
-			$engine = 'InnoDB';
+    public function onUninstall(){
+        DB::getInstance()->query('DROP TABLE countdown');
+    }
 
-		if(!$charset || is_array($charset))
-			$charset = 'latin1';
+    public function onEnable(){
 
-		$queries = new Queries();
-		try {
-			$queries->createTable("countdown", " `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(256) NOT NULL, `description` text, `expires` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`id`)", "ENGINE=$engine DEFAULT CHARSET=$charset");
-		} catch(Exception $e){
-			// Error
-		}
-	}
+    }
 
-	public function onUninstall(){
-		DB::getInstance()->createQuery('DROP TABLE countdown');
-	}
+    public function onDisable(){
 
-	public function onEnable(){
+    }
 
-	}
+    public function onPageLoad($user, $pages, $cache, $smarty, $navs, $widgets, $template) {
+        // Widgets
+        if (defined('FRONT_END') || (defined('PANEL_PAGE') && str_contains(PANEL_PAGE, 'widget'))) {
+            require_once __DIR__ . '/widgets/CountdownWidget.php';
+            $widgets->add(new CountdownWidget($user, $this->_language, $this->_countdown_language, $smarty, $cache));
+        }
 
-	public function onDisable(){
-
-	}
-
-	public function onPageLoad($user, $pages, $cache, $smarty, $navs, $widgets, $template) {
-		// Widgets
-		require_once(__DIR__ . '/widgets/CountdownWidget.php');
-		$countdown_pages = $widgets->getPages('Countdown');
-		$widgets->add(new CountdownWidget($countdown_pages, $user, $this->_language, $this->_countdown_language, $smarty, $cache));
-
-		if (defined('FRONT_END') && $template) {
-		$template->addJSScript('
+        if (defined('FRONT_END') && $template) {
+            $template->addJSScript('
                 let countdownInterval;
 
                 function getCountdownTime() {
@@ -81,10 +67,10 @@ class Countdown_Module extends Module {
 
                     const format = "' . $this->_countdown_language->get('countdown', 'countdown_format') . '";
 
-                    const getDays = (value) => xDays.replace("{x}", value);
-                    const getHours = (value) => xHours.replace("{x}", value);
-                    const getMinutes = (value) => xMinutes.replace("{x}", value);
-                    const getSeconds = (value) => xSeconds.replace("{x}", value);
+                    const getDays = (value) => xDays.replace("{{days}}", value);
+                    const getHours = (value) => xHours.replace("{{hours}}", value);
+                    const getMinutes = (value) => xMinutes.replace("{{minutes}}", value);
+                    const getSeconds = (value) => xSeconds.replace("{{seconds}}", value);
 
                     const padTime = (value) => String(value).padStart(2, "0");
 
@@ -105,19 +91,19 @@ class Countdown_Module extends Module {
                             const countdownSeconds = Math.floor((countdownDiff % (1000 * 60)) / 1000);
 
                             countdownElement.html(format
-                                                   .replace("{days}", getDays(countdownDays))
-                                                   .replace("{hours}", getHours(padTime(countdownHours)))
-                                                   .replace("{minutes}", getMinutes(padTime(countdownMinutes)))
-                                                   .replace("{seconds}", getSeconds(padTime(countdownSeconds)))
+                                                   .replace("{{days}}", getDays(countdownDays))
+                                                   .replace("{{hours}}", getHours(padTime(countdownHours)))
+                                                   .replace("{{minutes}}", getMinutes(padTime(countdownMinutes)))
+                                                   .replace("{{seconds}}", getSeconds(padTime(countdownSeconds)))
                                                  );
 
                             if (countdownDiff < 0) {
                                 clearInterval(countdownInterval);
                                 countdownElement.html(format
-                                                       .replace("{days}", getDays("0"))
-                                                       .replace("{hours}", getHours("00"))
-                                                       .replace("{minutes}", getMinutes("00"))
-                                                       .replace("{seconds}", getSeconds("00"))
+                                                       .replace("{{days}}", getDays("0"))
+                                                       .replace("{{hours}}", getHours("00"))
+                                                       .replace("{{minutes}}", getMinutes("00"))
+                                                       .replace("{{seconds}}", getSeconds("00"))
                                                      );
                             }
                         }
@@ -128,20 +114,20 @@ class Countdown_Module extends Module {
                 countdownInterval = setInterval(function() {
                     getCountdownTime();
                 }, 1000);
-		');
-		}
+            ');
+        }
 
-		if (defined('BACK_END')) {
-			if($user->getMainGroup()->id == 2 || $user->hasPermission('admincp.countdown')){
-				$cache->setCache('panel_sidebar');
-				if(!$cache->isCached('countdown_order')){
-					$order = 18;
-					$cache->store('countdown_order', 18);
-				} else {
-					$order = $cache->retrieve('countdown_order');
-				}
+        if (defined('BACK_END')) {
+            if ($user->getMainGroup()->id == 2 || $user->hasPermission('admincp.countdown')) {
+                $cache->setCache('panel_sidebar');
+                if (!$cache->isCached('countdown_order')) {
+                    $order = 18;
+                    $cache->store('countdown_order', 18);
+                } else {
+                    $order = $cache->retrieve('countdown_order');
+                }
 
-				$navs[2]->add('countdown_divider', mb_strtoupper($this->_countdown_language->get('countdown', 'countdown')), 'divider', 'top', null, $order, '');
+                $navs[2]->add('countdown_divider', mb_strtoupper($this->_countdown_language->get('countdown', 'countdown')), 'divider', 'top', null, $order, '');
 
                 if (!$cache->isCached('countdown_icon')) {
                     $icon = '<i class="nav-icon fa fa-clock" aria-hidden="true"></i>';
@@ -151,12 +137,16 @@ class Countdown_Module extends Module {
 
                 $navs[2]->add('countdown', $this->_countdown_language->get('countdown', 'countdown'), URL::build('/panel/countdown'), 'top', null, ($order + 0.1), $icon);
 
-			}
-		}
+            }
+        }
 
-		// AdminCP
-		PermissionHandler::registerPermissions('Countdown', array(
-			'admincp.countdown' => $this->_language->get('moderator', 'staff_cp') . ' &raquo; ' . $this->_countdown_language->get('countdown', 'countdown'),
-		));
-	}
+        // AdminCP
+        PermissionHandler::registerPermissions('Countdown', array(
+            'admincp.countdown' => $this->_language->get('moderator', 'staff_cp') . ' &raquo; ' . $this->_countdown_language->get('countdown', 'countdown'),
+        ));
+    }
+
+    public function getDebugInfo(): array {
+        return [];
+    }
 }

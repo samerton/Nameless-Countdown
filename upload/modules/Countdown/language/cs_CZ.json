@@ -1,0 +1,18 @@
+{
+    "countdown\/configure_widget_info": "Umístění widgetu můžete nastavit v záložce Panel -> Rozložení -> Widgety",
+    "countdown\/countdown": "Odpočet",
+    "countdown\/countdown_description": "Popis",
+    "countdown\/countdown_expires": "Vyprší",
+    "countdown\/countdown_format": "{{days}}:{{hours}}:{{minutes}}:{{seconds}}",
+    "countdown\/countdown_name": "Název",
+    "countdown\/expires_required": "Zadejte prosím datum vypršení",
+    "countdown\/name_maximum": "Ujistěte se, že název obsahuje maximálně {{count}} znaků",
+    "countdown\/name_minimum": "Ujistěte se, že název obsahuje alespoň {{count}} znaky",
+    "countdown\/name_required": "Zadejte prosím název",
+    "countdown\/no_countdown": "Zatím nebyl nastaven žádný odpočet",
+    "countdown\/updated_successfully": "Úspěšně aktualizováno",
+    "countdown\/x_days": "{{days}}d",
+    "countdown\/x_hours": "{{hours}}h",
+    "countdown\/x_minutes": "{{minutes}}m",
+    "countdown\/x_seconds": "{{seconds}}s"
+}

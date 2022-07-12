@@ -1,0 +1,18 @@
+{
+    "countdown\/configure_widget_info": "You can configure the widget's location in the StaffCP -> Layout -> Widgets tab",
+    "countdown\/countdown": "Countdown",
+    "countdown\/countdown_description": "Description",
+    "countdown\/countdown_expires": "Expires",
+    "countdown\/countdown_format": "{{days}}:{{hours}}:{{minutes}}:{{seconds}}",
+    "countdown\/countdown_name": "Name",
+    "countdown\/expires_required": "Please enter an expiration date",
+    "countdown\/name_maximum": "Please ensure the name is at most {{count}} characters",
+    "countdown\/name_minimum": "Please ensure the name is at least {{count}} characters",
+    "countdown\/name_required": "Please enter a name",
+    "countdown\/no_countdown": "No countdown has been set up yet",
+    "countdown\/updated_successfully": "Updated successfully",
+    "countdown\/x_days": "{{days}}d",
+    "countdown\/x_hours": "{{hours}}h",
+    "countdown\/x_minutes": "{{minutes}}m",
+    "countdown\/x_seconds": "{{seconds}}s"
+}

@@ -2,7 +2,7 @@
 /*
  *	Made by Samerton
  *  https://github.com/NamelessMC/Nameless/
- *  NamelessMC version 2.0.0-pr12
+ *  NamelessMC version 2.0.0-pr13
  *
  *  License: MIT
  *
@@ -19,12 +19,11 @@ define('PAGE', 'panel');
 define('PARENT_PAGE', 'countdown');
 define('PANEL_PAGE', 'countdown');
 $page_title = $countdown_language->get('countdown', 'countdown');
-require_once(ROOT_PATH . '/core/templates/backend_init.php');
+require_once ROOT_PATH . '/core/templates/backend_init.php';
 
 if (Input::exists()) {
     if (Token::check()) {
-        $validate = new Validate();
-        $validation = $validate->check($_POST, [
+        $validation = Validate::check($_POST, [
             'name' => [
                 Validate::REQUIRED => true,
                 Validate::MIN => 2,
@@ -44,21 +43,20 @@ if (Input::exists()) {
 
         if ($validation->passed()) {
             // TODO: multiple countdowns
-            $content = array(
+            $content = [
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
                 'expires' => strtotime($_POST['expires'])
-            );
+            ];
 
             if (DB::getInstance()->query('SELECT * FROM nl2_countdown WHERE id = 1')->count()) {
-                $queries->update('countdown', 1, $content);
+                DB::getInstance()->update('countdown', 1, $content);
             } else {
-                $queries->create('countdown', $content);
+                DB::getInstance()->insert('countdown', $content);
             }
 
             Session::flash('admin_countdown', $countdown_language->get('countdown', 'updated_successfully'));
             Redirect::to(URL::build('/panel/countdown'));
-            die();
 
         } else {
             $errors = $validation->errors();
@@ -66,12 +64,12 @@ if (Input::exists()) {
 
     } else {
         // Invalid token
-        $errors = array($language->get('general', 'invalid_token'));
+        $errors = [$language->get('general', 'invalid_token')];
     }
 }
 
 // Retrieve config
-$countdown_config = DB::getInstance()->query('SELECT name, description, expires FROM nl2_countdown ORDER BY id ASC LIMIT 1', array());
+$countdown_config = DB::getInstance()->query('SELECT name, description, expires FROM nl2_countdown ORDER BY id ASC LIMIT 1');
 
 if ($countdown_config->count()) {
     $countdown_config = $countdown_config->first();
@@ -90,24 +88,24 @@ if ($countdown_config->count()) {
 }
 
 // Load modules + template
-Module::loadPage($user, $pages, $cache, $smarty, array($navigation, $cc_nav, $mod_nav), $widgets);
+Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 if (Session::exists('admin_countdown'))
     $success = Session::flash('admin_countdown');
 
 if (isset($success))
-    $smarty->assign(array(
+    $smarty->assign([
         'SUCCESS' => $success,
         'SUCCESS_TITLE' => $language->get('general', 'success')
-    ));
+    ]);
 
 if (isset($errors) && count($errors))
-    $smarty->assign(array(
+    $smarty->assign([
         'ERRORS' => $errors,
         'ERRORS_TITLE' => $language->get('general', 'error')
-    ));
+    ]);
 
-$smarty->assign(array(
+$smarty->assign([
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'COUNTDOWN' => $countdown_language->get('countdown', 'countdown'),
@@ -118,10 +116,7 @@ $smarty->assign(array(
     'PAGE' => PANEL_PAGE,
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit')
-));
-
-$page_load = microtime(true) - $start;
-define('PAGE_LOAD_TIME', str_replace('{x}', round($page_load, 3), $language->get('general', 'page_loaded_in')));
+]);
 
 $template->onPageLoad();
 

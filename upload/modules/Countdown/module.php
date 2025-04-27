@@ -18,8 +18,8 @@ class Countdown_Module extends Module {
 
         $name = 'Countdown';
         $author = '<a href="https://samerton.me" target="_blank">Samerton</a>';
-        $module_version = '1.1.0';
-        $nameless_version = '2.0.0-pr13';
+        $module_version = '1.2.0';
+        $nameless_version = '2.2.1';
 
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
 
@@ -52,7 +52,7 @@ class Countdown_Module extends Module {
         // Widgets
         if (defined('FRONT_END') || (defined('PANEL_PAGE') && str_contains(PANEL_PAGE, 'widget'))) {
             require_once __DIR__ . '/widgets/CountdownWidget.php';
-            $widgets->add(new CountdownWidget($user, $this->_language, $this->_countdown_language, $smarty, $cache));
+            $widgets->add(new CountdownWidget($user, $this->_language, $this->_countdown_language, $template->getEngine(), $cache));
         }
 
         if (defined('FRONT_END') && $template) {

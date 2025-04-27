@@ -2,7 +2,7 @@
 A simple module which adds a countdown widget to your website.
 
 ### Requirements
-- NamelessMC version 2 pre-release 13
+- NamelessMC version 2.2.1+
 
 ### Installation
 - Upload the contents of the `upload` directory straight into your NamelessMC installation's directory
